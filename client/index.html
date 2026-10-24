@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang=\"pt-BR\">
+<head>
+    <meta charset=\"UTF-8\">
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+    <title>Zero Hero - Superhero Idle RPG</title>
+    <link rel=\"stylesheet\" href=\"/css/style.css\">
+    <link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">
+    <link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>
+    <link href=\"https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap\" rel=\"stylesheet\">
+</head>
+<body>
+    <div id=\"app\">
+        <!-- Loading Screen -->
+        <div id=\"loading-screen\" class=\"screen active\">
+            <div class=\"loader\">
+                <div class=\"hero-logo\">ZERO HERO</div>
+                <div class=\"loader-bar\"><div class=\"loader-fill\"></div></div>
+                <div class=\"loader-text\">Carregando heróis...</div>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id=\"login-screen\" class=\"screen\">
+            <div class=\"login-container\">
+                <h1 class=\"game-title\">ZERO HERO</h1>
+                <p class=\"game-subtitle\">Superhero Idle RPG</p>
+                <div class=\"login-tabs\">
+                    <button class=\"tab-btn active\" data-tab=\"guest\">Entrar como Visitante</button>
+                    <button class=\"tab-btn\" data-tab=\"register\">Criar Conta</button>
+                    <button class=\"tab-btn\" data-tab=\"login\">Login</button>
+                </div>
+                <div id=\"guest-form\" class=\"form active\">
+                    <input type=\"text\" id=\"guest-name\" placeholder=\"Seu nome de herói\" maxlength=\"15\">
+                    <button class=\"btn btn-primary btn-full\" id=\"btn-guest\">Começar Aventura</button>
+                </div>
+                <div id=\"register-form\" class=\"form\">
+                    <input type=\"text\" id=\"reg-username\" placeholder=\"Usuário (3-20 chars)\" maxlength=\"20\">
+                    <input type=\"email\" id=\"reg-email\" placeholder=\"Email (opcional)\">
+                    <input type=\"password\" id=\"reg-password\" placeholder=\"Senha\" minlength=\"4\">
+                    <button class=\"btn btn-primary btn-full\" id=\"btn-register\">Criar Conta</button>
+                </div>
+                <div id=\"login-form\" class=\"form\">
+                    <input type=\"text\" id=\"login-username\" placeholder=\"Usuário\">
+                    <input type=\"password\" id=\"login-password\" placeholder=\"Senha\">
+                    <button class=\"btn btn-primary btn-full\" id=\"btn-login\">Entrar</button>
+                </div>
+                <div class=\"version\">v1.0.0</div>
+            </div>
+        </div>
+
+        <!-- Character Creation -->
+        <div id=\"charcreate-screen\" class=\"screen\">
+            <div class=\"charcreate-container\">
+                <h2>ESCOLHA SUA CLASSE</h2>
+                <div class=\"classes-grid\" id=\"classes-grid\"></div>
+                <button class=\"btn btn-primary btn-full\" id=\"btn-start-game\" disabled>COMEÇAR JORNADA</button>
+            </div>
+        </div>
+
+        <!-- Main Game -->
+        <div id=\"game-screen\" class=\"screen\">
+            <!-- Top Bar -->
+            <header class=\"top-bar\">
+                <div class=\"hero-info\">
+                    <div class=\"hero-avatar\" id=\"hero-avatar\">⚔️</div>
+                    <div>
+                        <div class=\"hero-name\" id=\"hero-name\">Herói</div>
+                        <div class=\"hero-level\" id=\"hero-level\">Level 1</div>
+                    </div>
+                </div>
+                <div class=\"resources\">
+                    <div class=\"resource\"><span class=\"icon\">⚡</span><span id=\"energy\">100</span>/<span id=\"max-energy\">100</span></div>
+                    <div class=\"resource\"><span class=\"icon\">💰</span><span id=\"coins\">10000</span></div>
+                    <div class=\"resource\"><span class=\"icon\">💎</span><span id=\"gems\">500</span></div>
+                </div>
+                <div class=\"xp-bar\">
+                    <div class=\"xp-fill\" id=\"xp-fill\"></div>
+                    <span class=\"xp-text\" id=\"xp-text\">0 / 100 XP</span>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class=\"game-main\">
+                <!-- Left Sidebar -->
+                <aside class=\"sidebar-left\">
+                    <nav class=\"menu\">
+                        <button class=\"menu-btn active\" data-view=\"dashboard\"><span>🏠</span> Base</button>
+                        <button class=\"menu-btn\" data-view=\"missions\"><span>📋</span> Missões</button>
+                        <button class=\"menu-btn\" data-view=\"training\"><span>🏋️</span> Treino</button>
+                        <button class=\"menu-btn\" data-view=\"inventory\"><span>🎒</span> Inventário</button>
+                        <button class=\"menu-btn\" data-view=\"skills\"><span>✨</span> Habilidades</button>
+                        <button class=\"menu-btn\" data-view=\"shop\"><span>🏪</span> Loja</button>
+                        <button class=\"menu-btn\" data-view=\"pvp\"><span>⚔️</span> Arena</button>
+                        <button class=\"menu-btn\" data-view=\"leaderboard\"><span>🏆</span> Ranking</button>
+                    </nav>
+                </aside>
+
+                <!-- Center Content -->
+                <section class=\"content-center\" id=\"content-center\">
+                    <!-- Dashboard View -->
+                    <div id=\"view-dashboard\" class=\"view active\">
+                        <div class=\"hero-stats\">
+                            <h3>Estatísticas do Herói</h3>
+                            <div class=\"stats-grid\">
+                                <div class=\"stat\"><span class=\"stat-label\">❤️ HP</span><span class=\"stat-value\" id=\"stat-hp\">100</span></div>
+                                <div class=\"stat\"><span class=\"stat-label\">⚔️ Ataque</span><span class=\"stat-value\" id=\"stat-atk\">10</span></div>
+                                <div class=\"stat\"><span class=\"stat-label\">🛡️ Defesa</span><span class=\"stat-value\" id=\"stat-def\">5</span></div>
+                                <div class=\"stat\"><span class=\"stat-label\">⚡ Velocidade</span><span class=\"stat-value\" id=\"stat-spd\">10</span></div>
+                                <div class=\"stat\"><span class=\"stat-label\">💥 Crítico</span><span class=\"stat-value\" id=\"stat-crit\">5%</span></div>
+                            </div>
+                        </div>
+                        <div class=\"equipment-panel\">
+                            <h3>Equipamento</h3>
+                            <div class=\"equip-slots\">
+                                <div class=\"equip-slot\" data-slot=\"weapon\"><span class=\"slot-label\">⚔️ Arma</span><span class=\"slot-item\" id=\"equip-weapon\">Punhos</span></div>
+                                <div class=\"equip-slot\" data-slot=\"armor\"><span class=\"slot-label\">🛡️ Armadura</span><span class=\"slot-item\" id=\"equip-armor\">Roupas Comuns</span></div>
+                                <div class=\"equip-slot\" data-slot=\"accessory\"><span class=\"slot-label\">💍 Acessório</span><span class=\"slot-item\" id=\"equip-accessory\">—</span></div>
+                            </div>
+                        </div>
+                        <div class=\"buffs-panel\">
+                            <h3>Buffs Ativos</h3>
+                            <div id=\"active-buffs\" class=\"buffs-list\">Nenhum buff ativo</div>
+                        </div>
+                    </div>
+
+                    <!-- Missions View -->
+                    <div id=\"view-missions\" class=\"view\">
+                        <h3>Missões Disponíveis</h3>
+                        <div id=\"missions-list\" class=\"missions-list\"></div>
+                    </div>
+
+                    <!-- Training View -->
+                    <div id=\"view-training\" class=\"view\">
+                        <h3>Centro de Treinamento</h3>
+                        <div id=\"training-list\" class=\"training-list\"></div>
+                    </div>
+
+                    <!-- Inventory View -->
+                    <div id=\"view-inventory\" class=\"view\">
+                        <h3>Inventário</h3>
+                        <div class=\"inventory-tabs\">
+                            <button class=\"inv-tab active\" data-type=\"all\">Todos</button>
+                            <button class=\"inv-tab\" data-type=\"weapon\">⚔️ Armas</button>
+                            <button class=\"inv-tab\" data-type=\"armor\">🛡️ Armaduras</button>
+                            <button class=\"inv-tab\" data-type=\"accessory\">💍 Acessórios</button>
+                            <button class=\"inv-tab\" data-type=\"consumable\">🧪 Consumíveis</button>
+                        </div>
+                        <div id=\"inventory-grid\" class=\"inventory-grid\"></div>
+                    </div>
+
+                    <!-- Skills View -->
+                    <div id=\"view-skills\" class=\"view\">
+                        <h3>Habilidades</h3>
+                        <div class=\"skill-points\" id=\"skill-points\">Pontos: 0</div>
+                        <div id=\"skills-grid\" class=\"skills-grid\"></div>
+                    </div>
+
+                    <!-- Shop View -->
+                    <div id=\"view-shop\" class=\"view\">
+                        <h3>Loja do Herói</h3>
+                        <div class=\"currency-display\">💎 <span id=\"shop-gems\">500</span> | 💰 <span id=\"shop-coins\">10000</span></div>
+                        <div id=\"shop-grid\" class=\"shop-grid\"></div>
+                    </div>
+
+                    <!-- PVP View -->
+                    <div id=\"view-pvp\" class=\"view\">
+                        <h3>Arena PVP</h3>
+                        <div class=\"pvp-info\">
+                            <div class=\"rating\"><span>🏆 Rating:</span><span id=\"pvp-rating\">1000</span></div>
+                            <div class=\"record\"><span>✅ Vitórias:</span><span id=\"pvp-wins\">0</span> | <span>❌ Derrotas:</span><span id=\"pvp-losses\">0</span></div>
+                        </div>
+                        <button class=\"btn btn-primary\" id=\"btn-find-match\">Encontrar Oponente</button>
+                        <div id=\"pvp-log\" class=\"pvp-log\"></div>
+                    </div>
+
+                    <!-- Leaderboard View -->
+                    <div id=\"view-leaderboard\" class=\"view\">
+                        <h3>Ranking dos Heróis</h3>
+                        <div id=\"leaderboard-list\" class=\"leaderboard-list\"></div>
+                    </div>
+                </section>
+
+                <!-- Right Sidebar -->
+                <aside class=\"sidebar-right\">
+                    <div class=\"chat-panel\">
+                        <h4>💬 Chat Global</h4>
+                        <div id=\"chat-messages\" class=\"chat-messages\"></div>
+                        <div class=\"chat-input\">
+                            <input type=\"text\" id=\"chat-input\" placeholder=\"Digite mensagem...\" maxlength=\"200\">
+                            <button id=\"btn-chat-send\">Enviar</button>
+                        </div>
+                    </div>
+                    <div class=\"online-players\">
+                        <h4>👥 Online: <span id=\"online-count\">0</span></h4>
+                        <div id=\"online-list\" class=\"online-list\"></div>
+                    </div>
+                    <div class=\"daily-reward\" id=\"daily-reward\">
+                        <h4>🎁 Login Diário</h4>
+                        <button class=\"btn btn-gold btn-full\" id=\"btn-claim-daily\">Resgatar</button>
+                    </div>
+                </aside>
+            </main>
+
+            <!-- Modals -->
+            <div id=\"modal\" class=\"modal\">
+                <div class=\"modal-content\">
+                    <span class=\"modal-close\">&times;</span>
+                    <h3 id=\"modal-title\"></h3>
+                    <div id=\"modal-body\"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src=\"/js/game.js\"></script>
+</body>
+</html>
